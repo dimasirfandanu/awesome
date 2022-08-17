@@ -68,7 +68,9 @@ local function run_once(cmd_arr)
   end
 end
 
-run_once({ "urxvtd", "unclutter -root", "~/.config/awesome/startup.sh" }) -- comma-separated entries
+run_once({
+  "picom --fade-in-step=1 --fade-out-step=1 --fade-delta=0",
+}) -- comma-separated entries
 
 -- This function implements the XDG autostart specification
 --[[
