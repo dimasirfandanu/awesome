@@ -1,5 +1,6 @@
 --[[
 
+
      Awesome WM configuration template
      github.com/lcpz
 
@@ -70,6 +71,9 @@ end
 
 run_once({
   "picom --fade-in-step=1 --fade-out-step=1 --fade-delta=0",
+  "ulauncher --no-window-shadow --hide-window", -- TODO: Install ulauncher
+  "xinput set-prop 'ITE Tech. Inc. ITE Device(8910) Touchpad' 'libinput Tapping Enabled' 1",
+  "xinput set-prop 'ITE Tech. Inc. ITE Device(8910) Touchpad' 'libinput Natural Scrolling Enabled' 1"
 }) -- comma-separated entries
 
 -- This function implements the XDG autostart specification
@@ -106,7 +110,7 @@ local terminal     = "alacritty"
 local vi_focus     = false -- vi-like client focus https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev   = true -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
 local editor       = os.getenv("EDITOR") or "nvim"
-local browser      = "librewolf"
+local browser      = "firefox"
 
 awful.util.terminal = terminal
 awful.util.tagnames = { "1", "2", "3", "4", "5" }
@@ -174,6 +178,9 @@ awful.util.tasklist_buttons = mytable.join(
 )
 
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
+
+-- Override theme gapping
+beautiful.useless_gap = 3
 
 -- }}}
 
@@ -401,6 +408,7 @@ globalkeys = mytable.join(
     { description = "reload awesome", group = "awesome" }),
   awful.key({ modkey, "Shift" }, "q", awesome.quit,
     { description = "quit awesome", group = "awesome" }),
+
 
   awful.key({ modkey, altkey }, "l", function() awful.tag.incmwfact(0.05) end,
     { description = "increase master width factor", group = "layout" }),
