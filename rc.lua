@@ -24,6 +24,7 @@ local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
+local menubar = require("menubar")
 
 -- }}}
 
@@ -73,7 +74,8 @@ run_once({
   "picom --fade-in-step=1 --fade-out-step=1 --fade-delta=0",
   "ulauncher --no-window-shadow --hide-window", -- TODO: Install ulauncher
   "xinput set-prop 'ITE Tech. Inc. ITE Device(8910) Touchpad' 'libinput Tapping Enabled' 1",
-  "xinput set-prop 'ITE Tech. Inc. ITE Device(8910) Touchpad' 'libinput Natural Scrolling Enabled' 1"
+  "xinput set-prop 'ITE Tech. Inc. ITE Device(8910) Touchpad' 'libinput Natural Scrolling Enabled' 1",
+  "xrandr --output DSI-1 --brightness 0.5"
 }) -- comma-separated entries
 
 -- This function implements the XDG autostart specification
@@ -110,7 +112,7 @@ local terminal     = "alacritty"
 local vi_focus     = false -- vi-like client focus https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev   = true -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
 local editor       = os.getenv("EDITOR") or "nvim"
-local browser      = "firefox"
+local browser      = "luakit"
 
 awful.util.terminal = terminal
 awful.util.tagnames = { "1", "2", "3", "4", "5" }
@@ -408,7 +410,8 @@ globalkeys = mytable.join(
     { description = "reload awesome", group = "awesome" }),
   awful.key({ modkey, "Shift" }, "q", awesome.quit,
     { description = "quit awesome", group = "awesome" }),
-
+  awful.key({ modkey }, "p", function() menubar.show() end,
+    { description = "show the menubar", group = "launcher" }),
 
   awful.key({ modkey, altkey }, "l", function() awful.tag.incmwfact(0.05) end,
     { description = "increase master width factor", group = "layout" }),
@@ -702,7 +705,7 @@ awful.rules.rules = {
       keys = clientkeys,
       buttons = clientbuttons,
       screen = awful.screen.preferred,
-      placement = awful.placement.no_overlap + awful.placement.no_offscreen,
+      placement = awful.placement.centered,
       size_hints_honor = false
     }
   },

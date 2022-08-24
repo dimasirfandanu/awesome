@@ -304,6 +304,8 @@ function theme.at_screen_connect(s)
   -- Create the wibox
   s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(18), bg = theme.bg_normal, fg = theme.fg_normal })
 
+  -- Ping widget
+
   -- Add widgets to the wibox
   s.mywibox:setup {
     layout = wibox.layout.align.horizontal,
