@@ -19,12 +19,11 @@ local wibox         = require("wibox")
 local beautiful     = require("beautiful")
 local naughty       = require("naughty")
 local lain          = require("lain")
---local menubar       = require("menubar")
+local menubar       = require("menubar")
 local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
-local menubar = require("menubar")
 
 -- }}}
 
@@ -71,11 +70,12 @@ local function run_once(cmd_arr)
 end
 
 run_once({
-  "picom --fade-in-step=1 --fade-out-step=1 --fade-delta=0",
+  -- "picom --fade-in-step=1 --fade-out-step=1 --fade-delta=0",
   "ulauncher --no-window-shadow --hide-window", -- TODO: Install ulauncher
   "xinput set-prop 'ITE Tech. Inc. ITE Device(8910) Touchpad' 'libinput Tapping Enabled' 1",
   "xinput set-prop 'ITE Tech. Inc. ITE Device(8910) Touchpad' 'libinput Natural Scrolling Enabled' 1",
-  "xrandr --output DSI-1 --brightness 0.5"
+  "xrandr --output DSI-1 --brightness 0.5",
+  "oneko -tofocus",
 }) -- comma-separated entries
 
 -- This function implements the XDG autostart specification
@@ -277,7 +277,7 @@ root.buttons(mytable.join(
 
 globalkeys = mytable.join(
 -- Destroy all notifications
-  awful.key({ "Control", }, "space", function() naughty.destroy_all_notifications() end,
+  awful.key({ "Control", }, "l", function() naughty.destroy_all_notifications() end,
     { description = "destroy all notifications", group = "hotkeys" }),
   -- Take a screenshot
   -- https://github.com/lcpz/dots/blob/master/bin/screenshot
@@ -410,8 +410,6 @@ globalkeys = mytable.join(
     { description = "reload awesome", group = "awesome" }),
   awful.key({ modkey, "Shift" }, "q", awesome.quit,
     { description = "quit awesome", group = "awesome" }),
-  awful.key({ modkey }, "p", function() menubar.show() end,
-    { description = "show the menubar", group = "launcher" }),
 
   awful.key({ modkey, altkey }, "l", function() awful.tag.incmwfact(0.05) end,
     { description = "increase master width factor", group = "layout" }),
@@ -539,10 +537,10 @@ globalkeys = mytable.join(
     { description = "run browser", group = "launcher" }),
 
   -- Default
-  --[[ Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"}),
-    --]]
+  -- [[ Menubar
+  awful.key({ modkey }, "p", function() menubar.show() end,
+    { description = "show the menubar", group = "launcher" }),
+  --]]
   --[[ dmenu
     awful.key({ modkey }, "x", function ()
             os.execute(string.format("dmenu_run -i -fn 'Monospace' -nb '%s' -nf '%s' -sb '%s' -sf '%s'",
@@ -573,6 +571,19 @@ globalkeys = mytable.join(
       }
     end,
     { description = "lua execute prompt", group = "awesome" })
+
+-- TODO: run menu with shell
+-- awful.key({ modkey }, "c",
+--   function()
+--     awful.prompt.run {
+--       prompt       = "Run shell command: ",
+--       textbox      = awful.screen.focused().mypromptbox.widget,
+--       exe_callback = awful.spawn.with_shell,
+--       -- history_path = awful.util.get_cache_dir() .. "/history_eval"
+--     }
+--   end,
+--   { description = "lua execute prompt", group = "awesome" })
+
 --]]
 )
 
@@ -699,7 +710,7 @@ awful.rules.rules = {
   { rule = {},
     properties = { border_width = beautiful.border_width,
       border_color = beautiful.border_normal,
-      callback = awful.client.setslave,
+      callback = awful.client.setslave, -- TODO: magnify_client
       focus = awful.client.focus.filter,
       raise = true,
       keys = clientkeys,
