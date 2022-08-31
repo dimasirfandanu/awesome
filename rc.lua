@@ -76,6 +76,7 @@ run_once({
   "xinput set-prop 'ITE Tech. Inc. ITE Device(8910) Touchpad' 'libinput Natural Scrolling Enabled' 1",
   "xrandr --output DSI-1 --brightness 0.5",
   "oneko -tofocus",
+  "screenrotator",
 }) -- comma-separated entries
 
 -- This function implements the XDG autostart specification
