@@ -74,7 +74,7 @@ run_once({
   "ulauncher --no-window-shadow --hide-window", -- TODO: Install ulauncher
   "xinput set-prop 'ITE Tech. Inc. ITE Device(8910) Touchpad' 'libinput Tapping Enabled' 1",
   "xinput set-prop 'ITE Tech. Inc. ITE Device(8910) Touchpad' 'libinput Natural Scrolling Enabled' 1",
-  "xrandr --output DSI-1 --brightness 0.5",
+  -- "xrandr --output DSI-1 --brightness 0.5",
   "oneko -tofocus",
   "screenrotator",
 }) -- comma-separated entries
