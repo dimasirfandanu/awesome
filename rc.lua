@@ -20,7 +20,7 @@ local beautiful     = require("beautiful")
 local naughty       = require("naughty")
 local lain          = require("lain")
 local menubar       = require("menubar")
-local freedesktop   = require("freedesktop")
+-- local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
@@ -66,6 +66,7 @@ end
 local function run_once(cmd_arr)
   for _, cmd in ipairs(cmd_arr) do
     awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null || (%s)", cmd, cmd))
+    awful.spawn.with_shell(string.format("picom"))
   end
 end
 
@@ -106,7 +107,7 @@ local themes = {
   "vertex" -- 10
 }
 
-local chosen_theme = themes[7]
+local chosen_theme = themes[5]
 local modkey       = "Mod4"
 local altkey       = "Mod1"
 local terminal     = "alacritty"
@@ -198,16 +199,16 @@ local myawesomemenu = {
   { "Quit", function() awesome.quit() end },
 }
 
-awful.util.mymainmenu = freedesktop.menu.build {
-  before = {
-    { "Awesome", myawesomemenu, beautiful.awesome_icon },
-    -- other triads can be put here
-  },
-  after = {
-    { "Open terminal", terminal },
-    -- other triads can be put here
-  }
-}
+-- awful.util.mymainmenu = freedesktop.menu.build {
+--   before = {
+--     { "Awesome", myawesomemenu, beautiful.awesome_icon },
+--     -- other triads can be put here
+--   },
+--   after = {
+--     { "Open terminal", terminal },
+--     -- other triads can be put here
+--   }
+-- }
 
 -- Hide the menu when the mouse leaves it
 --[[
