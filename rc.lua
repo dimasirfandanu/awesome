@@ -20,10 +20,12 @@ local beautiful     = require("beautiful")
 local naughty       = require("naughty")
 local lain          = require("lain")
 local menubar       = require("menubar")
--- local freedesktop   = require("freedesktop")
+local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
+local rotate = require('screenrotation')
+-- local virtual_keyboard = require('virtual_keyboard')
 
 -- }}}
 
@@ -107,7 +109,7 @@ local themes = {
   "vertex" -- 10
 }
 
-local chosen_theme = themes[5]
+local chosen_theme = themes[6]
 local modkey       = "Mod4"
 local altkey       = "Mod1"
 local terminal     = "alacritty"
@@ -199,16 +201,16 @@ local myawesomemenu = {
   { "Quit", function() awesome.quit() end },
 }
 
--- awful.util.mymainmenu = freedesktop.menu.build {
---   before = {
---     { "Awesome", myawesomemenu, beautiful.awesome_icon },
---     -- other triads can be put here
---   },
---   after = {
---     { "Open terminal", terminal },
---     -- other triads can be put here
---   }
--- }
+awful.util.mymainmenu = freedesktop.menu.build {
+  before = {
+    { "Awesome", myawesomemenu, beautiful.awesome_icon },
+    -- other triads can be put here
+  },
+  after = {
+    { "Open terminal", terminal },
+    -- other triads can be put here
+  }
+}
 
 -- Hide the menu when the mouse leaves it
 --[[
@@ -261,7 +263,11 @@ screen.connect_signal("arrange", function(s)
 end)
 
 -- Create a wibox for each screen and add it
-awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) end)
+awful.screen.connect_for_each_screen(function(s)
+  beautiful.at_screen_connect(s)
+  -- s.virtual_keyboard = virtual_keyboard.new({ screen = s })
+end)
+-- awful.screen.focused().virtual_keyboard:toggle() -- toggle virtual keyboard
 
 -- }}}
 
@@ -295,12 +301,20 @@ globalkeys = mytable.join(
     { description = "show help", group = "awesome" }),
 
   -- Tag browsing
-  awful.key({ modkey, }, "Left", awful.tag.viewprev,
-    { description = "view previous", group = "tag" }),
-  awful.key({ modkey, }, "Right", awful.tag.viewnext,
-    { description = "view next", group = "tag" }),
+  -- awful.key({ modkey, }, "Left", awful.tag.viewprev,
+  --   { description = "view previous", group = "tag" }),
+  -- awful.key({ modkey, }, "Right", awful.tag.viewnext,
+  --   { description = "view next", group = "tag" }),
   awful.key({ modkey, }, "Escape", awful.tag.history.restore,
     { description = "go back", group = "tag" }),
+    awful.key({ modkey }, "Up", function() rotate("normal") end,
+    {description = "Normal tag rotation", group = "tag"}),
+  awful.key({ modkey }, "Down", function() rotate("inverted") end,
+    {description = "Inverted tag rotation", group = "tag"}),
+  awful.key({ modkey }, "Left", function() rotate("left") end,
+    {description = "Counter-clockwise tag rotation", group = "tag"}),
+  awful.key({ modkey }, "Right", function() rotate("right") end,
+    {description = "Clockwise tag rotation", group = "tag"}),
 
   -- Non-empty tag browsing
   awful.key({ altkey }, "Left", function() lain.util.tag_view_nonempty(-1) end,

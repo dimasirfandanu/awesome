@@ -5,3 +5,6 @@
 [submodule "freedesktop"]
 	path = freedesktop
 	url = https://github.com/lcpz/awesome-freedesktop.git
+[submodule "screenrotation"]
+	path = screenrotation
+	url = https://github.com/raksooo/screenrotation
